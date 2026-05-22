@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AM — Cinematic Music Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- Ambient particles removed -->
+
+  <!-- Loader removed — intro video is the first thing shown -->
+
+  <!-- ============================================
+       INTRO — autoplaying video, transitions out
+       ============================================ -->
+  <div class="intro" id="intro">
+    <video id="intro-video" autoplay muted playsinline loop preload="auto">
+      <source src="assets/hero-reveal.webm" type="video/webm" />
+    </video>
+    <div class="intro-bloom" aria-hidden="true">
+      <video id="intro-bloom-video" autoplay muted playsinline loop preload="auto">
+        <source src="assets/hero-reveal.webm" type="video/webm" />
+      </video>
+    </div>
+    <div class="intro-grain" aria-hidden="true"></div>
+    <div class="intro-vignette"></div>
+
+    <div class="intro-mark">AM<span class="dot"></span></div>
+
+    <div class="intro-frame-meta">
+      <div class="row"><span class="num">SCN 01</span><span>Sequence — Reveal</span></div>
+      <div class="row"><span class="num">2160 × 1620</span><span>24 fps</span></div>
+    </div>
+
+    <div class="intro-enter" id="intro-enter">
+      <div class="intro-enter-chevron">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="intro-toast" id="intro-toast">
+      <div class="intro-toast-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="2" width="8" height="14" rx="4"/>
+          <line x1="12" y1="6" x2="12" y2="9"/>
+          <path d="M9 19l3 3 3-3"/>
+        </svg>
+      </div>
+      <div class="intro-toast-body">
+        <div class="intro-toast-title">Scroll down to enter the studio</div>
+      </div>
+      <div class="intro-toast-arrow">↓</div>
+    </div>
+
+    <div class="intro-disclaimer">Fan concept · Non-commercial</div>
+
+    <div class="intro-concept-label">Concept</div>
+
+    <div class="intro-progress"><span></span></div>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav" id="top">
+    <a href="#" class="nav-brand" id="nav-brand" aria-label="Replay intro">
+      <svg class="nav-brand-mark" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="glRed" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ff8390"/>
+            <stop offset="35%" stop-color="#ff2a3a"/>
+            <stop offset="100%" stop-color="#5c0d18"/>
+          </linearGradient>
+          <linearGradient id="glRedRim" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffe0d8" stop-opacity="0.85"/>
+            <stop offset="50%" stop-color="#ff2a3a" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#ffd8b0" stop-opacity="0.4"/>
+          </linearGradient>
+          <radialGradient id="glHi" cx="0.3" cy="0.15" r="0.6">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+            <stop offset="60%" stop-color="#ffffff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <g>
+          <path d="M 8 24 Q 8 8 22 8 Q 36 8 36 24" fill="none" stroke="url(#glRed)" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M 9.5 22 Q 10 11 22 10" fill="none" stroke="#ffd8d8" stroke-opacity="0.55" stroke-width="0.9" stroke-linecap="round"/>
+          <ellipse cx="8" cy="29" rx="6" ry="8" fill="url(#glRed)"/>
+          <ellipse cx="8" cy="29" rx="6" ry="8" fill="url(#glHi)"/>
+          <ellipse cx="8" cy="29" rx="5.4" ry="7.4" fill="none" stroke="url(#glRedRim)" stroke-width="0.8"/>
+          <ellipse cx="6.4" cy="25" rx="2.2" ry="2" fill="#fff" fill-opacity="0.45"/>
+          <ellipse cx="36" cy="29" rx="6" ry="8" fill="url(#glRed)"/>
+          <ellipse cx="36" cy="29" rx="6" ry="8" fill="url(#glHi)"/>
+          <ellipse cx="36" cy="29" rx="5.4" ry="7.4" fill="none" stroke="url(#glRedRim)" stroke-width="0.8"/>
+          <ellipse cx="34.4" cy="25" rx="2.2" ry="2" fill="#fff" fill-opacity="0.45"/>
+        </g>
+      </svg>
+    </a>
+    <nav class="nav-links">
+      <a href="#np" data-target="np" class="is-active">Now Playing</a>
+      <a href="#songs" data-target="songs">Songs</a>
+      <a href="#artists" data-target="artists">Artists</a>
+      <a href="#albums" data-target="albums">Albums</a>
+      <a href="#foot" data-target="foot">Contact</a>
+    </nav>
+    <div class="nav-meta">
+      <span class="live"></span>
+      <span id="nav-clock">00:00:00</span>
+    </div>
+  </header>
+
+  <!-- ============================================
+       STUDIO / DASHBOARD
+       ============================================ -->
+  <main class="studio" data-screen-label="01 Studio">
+
+    <!-- ============================================
+         FEATURED — 3D vinyl + transport
+         ============================================ -->
+    <div class="wrap featured" id="np" data-screen-label="02 Featured">
+      <div class="featured-grid">
+        <div class="disc-stage" id="disc-stage">
+          <div class="disc" id="disc">
+            <div class="disc-vinyl" id="disc-vinyl">
+              <div class="disc-label" id="disc-label">AM</div>
+            </div>
+            <div class="tonearm"></div>
+          </div>
+        </div>
+
+        <div class="featured-info reveal-blur">
+          <div class="featured-meta">
+            <span class="live"></span>
+            <span>On the deck</span>
+            <span class="preview-note">Preview Tone</span>
+          </div>
+
+          <h2 class="featured-title" id="np-title">God’s Plan</h2>
+          <div class="featured-artist" id="np-artist"><b>Drake</b></div>
+          <div class="featured-album" id="np-album">Scorpion · 2018</div>
+
+          <div class="transport">
+            <button class="t-btn" id="shuffle-btn" aria-label="Shuffle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M16 3h5v5"/><path d="M21 3l-7 7"/><path d="M8 21H3v-5"/><path d="M3 21l7-7"/><path d="M16 21h5v-5"/><path d="M21 21l-7-7"/><path d="M3 3l7 7"/></svg>
+            </button>
+            <button class="t-btn" id="prev-btn" aria-label="Previous">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6V5zm3.5 7l9.5-7v14L9.5 12z"/></svg>
+            </button>
+            <button class="t-btn t-play" id="play-btn" aria-label="Play">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8V4z"/></svg>
+            </button>
+            <button class="t-btn" id="next-btn" aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2V5zM5 5l9.5 7L5 19V5z"/></svg>
+            </button>
+            <button class="t-btn" id="repeat-btn" aria-label="Repeat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </button>
+          </div>
+
+          <div class="transport-bar">
+            <span class="t-time" id="np-elapsed">0:00</span>
+            <div class="t-bar" id="np-bar"><span></span></div>
+            <span class="t-time" id="np-remain">-3:18</span>
+          </div>
+
+          <div class="spectrum">
+            <div class="spectrum-label">Spectrum<span class="lev">-12 dB</span></div>
+            <canvas id="waveform-canvas"></canvas>
+          </div>
+
+          <div class="t-volume">
+            <svg class="t-volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+            <div class="t-volume-bar" id="vol-track"><span></span></div>
+            <span>70%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         ARTISTS — horizontal scroll rail
+         ============================================ -->
+    <div class="wrap rail-block" id="artists" data-screen-label="03 Artists">
+      <div class="section-head">
+        <div class="l">
+          <div class="eyebrow reveal">The Roster <span class="accent">• 04</span></div>
+          <h2 class="headline reveal-blur" style="--reveal-delay: 0.1s;">The voices <em>moving the room.</em></h2>
+        </div>
+        <div class="r reveal-slide-l" style="--reveal-delay: 0.3s;">
+          <div class="rail-controls">
+            <button class="rail-arrow" id="rail-prev" aria-label="Previous artist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button class="rail-arrow" id="rail-next" aria-label="Next artist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="rail-wrap">
+        <div class="rail" id="artist-rail"></div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SONGS
+         ============================================ -->
+    <div class="wrap songs-block" id="songs" data-screen-label="04 Songs">
+      <div class="section-head">
+        <div class="l">
+          <div class="eyebrow reveal">Library <span class="accent">• 12</span></div>
+          <h2 class="headline reveal-blur" style="--reveal-delay: 0.1s;">Tonight’s set,<br/><em>in heavy rotation.</em></h2>
+        </div>
+        <div class="r reveal-slide-l" style="--reveal-delay: 0.3s;">Updated — 21.V.26</div>
+      </div>
+      <div class="songs-list" id="songs-list"></div>
+    </div>
+
+    <!-- ============================================
+         ALBUMS — 3D mouse-tilt grid
+         ============================================ -->
+    <div class="wrap albums-block" id="albums" data-screen-label="05 Albums">
+      <div class="section-head">
+        <div class="l">
+          <div class="eyebrow reveal">Pressings <span class="accent">• 12</span></div>
+          <h2 class="headline reveal-blur" style="--reveal-delay: 0.1s;">Albums <em>that built the room.</em></h2>
+        </div>
+        <div class="r reveal-slide-l" style="--reveal-delay: 0.3s;">Hover — tilt to feel</div>
+      </div>
+      <div class="albums-grid" id="albums-grid"></div>
+    </div>
+
+  </main>
+
+  <footer class="foot" id="foot" data-screen-label="06 Contact">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <h3 class="foot-title reveal-blur">Send us<br/>a <em>record.</em></h3>
+          <a href="mailto:room@am.studio" class="foot-cta reveal" style="--reveal-delay: 0.15s;">
+            <span>room@am.studio</span>
+            <span class="arr">→</span>
+          </a>
+        </div>
+        <div class="foot-cols">
+          <div class="foot-col reveal" style="--reveal-delay: 0.2s;">
+            <h4>Studio</h4>
+            <p>132 Lower Loft Rd<br/>Brooklyn, NY 11231</p>
+          </div>
+          <div class="foot-col reveal" style="--reveal-delay: 0.3s;">
+            <h4>Hours</h4>
+            <p>Mon — Sat<br/>11:00 — Late</p>
+          </div>
+          <div class="foot-col reveal" style="--reveal-delay: 0.4s;">
+            <h4>Follow</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Bandcamp</a>
+            <a href="#">Mailing List</a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-legal reveal" style="--reveal-delay: 0.5s;">
+        <span>© 2024–2026 AM Studio — <b>A fan concept</b></span>
+        <span>Audio is procedurally synthesized — not the real masters</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Easter egg -->
+  <div class="easter">
+    <div class="easter-card">
+      <div class="glyph">AM</div>
+      <h4>You found the back room.</h4>
+      <p>This is where the half-finished records live. We'll put one on if you stay a while.</p>
+      <button id="easter-close">Close the door (Esc)</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
