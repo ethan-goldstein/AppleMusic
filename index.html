@@ -1999,6 +1999,7 @@ body.is-revealed .foot { opacity: 1; }
       <a href="#songs" data-target="songs">Songs</a>
       <a href="#artists" data-target="artists">Artists</a>
       <a href="#albums" data-target="albums">Albums</a>
+      <a href="#plists" data-target="plists">Playlists</a>
       <a href="#studio3d" data-target="studio3d">Studio</a>
       <a href="#foot" data-target="foot">Contact</a>
     </nav>
@@ -2126,6 +2127,84 @@ body.is-revealed .foot { opacity: 1; }
     </div>
 
     <!-- ============================================
+         PLAYLISTS — synced from my Apple Music library
+         ============================================ -->
+    <style>
+      .plists-block { padding-bottom: 2vw; }
+      .pl-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 26px; }
+      .pl-tab {
+        position: relative; text-align: left; cursor: none;
+        border: 1px solid var(--line); border-radius: 18px;
+        background: linear-gradient(180deg, var(--glass), transparent);
+        padding: 22px 22px 18px; overflow: hidden;
+        font-family: var(--sans); color: var(--ink);
+        transition: border-color 0.35s, transform 0.5s var(--ease-out), background 0.35s;
+      }
+      .pl-tab:hover { transform: translateY(-4px); }
+      .pl-tab.is-active { border-color: var(--pl-color, var(--red)); background: linear-gradient(180deg, var(--glass-strong), transparent); }
+      .pl-tab::after {
+        content: ''; position: absolute; inset: 0; opacity: 0;
+        background: radial-gradient(420px 200px at 50% 120%, var(--pl-glow, rgba(255,42,58,0.16)), transparent 70%);
+        transition: opacity 0.4s; pointer-events: none;
+      }
+      .pl-tab.is-active::after, .pl-tab:hover::after { opacity: 1; }
+      .pl-tab .em { font-size: 30px; line-height: 1; display: block; }
+      .pl-tab .nm {
+        margin-top: 12px; font-size: 21px; font-weight: 700; letter-spacing: -0.01em;
+        display: flex; align-items: baseline; gap: 10px;
+      }
+      .pl-tab .nm small { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--ink-faint); text-transform: uppercase; }
+      .pl-tab .ds { margin-top: 6px; font-size: 12.5px; color: var(--ink-dim); }
+      .pl-tab .ct { margin-top: 14px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--pl-color, var(--red)); text-transform: uppercase; }
+      .pl-panel {
+        border: 1px solid var(--line); border-radius: 18px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+        overflow: hidden;
+      }
+      .pl-list { max-height: 420px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+      .pl-row {
+        display: grid; grid-template-columns: 44px 1fr minmax(0, 0.8fr) 58px;
+        gap: 14px; align-items: center;
+        padding: 11px 22px; border-top: 1px solid var(--line);
+        transition: background 0.25s;
+      }
+      .pl-row:first-child { border-top: none; }
+      .pl-row:hover { background: rgba(255,255,255,0.03); }
+      .pl-row .n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); }
+      .pl-row .ti { min-width: 0; }
+      .pl-row .ti b { display: block; font-weight: 600; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .pl-row .ti span { display: block; font-size: 11.5px; color: var(--ink-dim); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .pl-row .al { font-size: 11.5px; color: var(--ink-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .pl-row .du { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); text-align: right; }
+      .pl-row.is-playing .ti b { color: var(--pl-color, var(--red)); }
+      .pl-row.is-playing .n { color: var(--pl-color, var(--red)); }
+      .pl-note {
+        padding: 14px 22px; border-top: 1px solid var(--line);
+        font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em;
+        color: var(--ink-faint); text-transform: uppercase;
+      }
+      @media (max-width: 900px) {
+        .pl-tabs { grid-template-columns: 1fr; }
+        .pl-row { grid-template-columns: 30px 1fr 48px; }
+        .pl-row .al { display: none; }
+      }
+    </style>
+    <div class="wrap plists-block" id="plists" data-screen-label="06 Playlists">
+      <div class="section-head">
+        <div class="l">
+          <div class="eyebrow reveal">From my library <span class="accent">• Synced</span></div>
+          <h2 class="headline reveal-blur" style="--reveal-delay: 0.1s;">My<em> rotations.</em></h2>
+        </div>
+        <div class="r reveal-slide-l" style="--reveal-delay: 0.3s;">Pulled from Apple Music — previews synthesized</div>
+      </div>
+      <div class="pl-tabs reveal" id="pl-tabs"></div>
+      <div class="pl-panel reveal" style="--reveal-delay: 0.15s;">
+        <div class="pl-list" id="pl-list"></div>
+        <div class="pl-note">Track listings synced from my personal Apple Music library · previews are synthesized tones, not the original recordings · nothing is for sale</div>
+      </div>
+    </div>
+
+    <!-- ============================================
          3D STUDIO — Higgsfield-generated room
          ============================================ -->
     <style>
@@ -2170,7 +2249,7 @@ body.is-revealed .foot { opacity: 1; }
         background: var(--red-glass); pointer-events: none;
       }
     </style>
-    <div class="wrap studio3d-block" id="studio3d" data-screen-label="06 Studio 3D">
+    <div class="wrap studio3d-block" id="studio3d" data-screen-label="07 Studio 3D">
       <div class="section-head">
         <div class="l">
           <div class="eyebrow reveal">The Room <span class="accent">• 3D</span></div>
@@ -2201,7 +2280,7 @@ body.is-revealed .foot { opacity: 1; }
 
   </main>
 
-  <footer class="foot" id="foot" data-screen-label="06 Contact">
+  <footer class="foot" id="foot" data-screen-label="08 Contact">
     <div class="wrap">
       <div class="foot-grid">
         <div>
@@ -2247,6 +2326,7 @@ body.is-revealed .foot { opacity: 1; }
 
   <!-- Scripts -->
   <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+  <script src="assets/playlists.js"></script>
   <script>
 /* ============================================
    AM — Music library: 4 real artists, real titles
@@ -2814,7 +2894,7 @@ window.AudioEngine = AudioEngine;
     else nav.classList.remove('is-scrolled');
 
     // active section
-    const sections = ['np', 'songs', 'artists', 'albums', 'studio3d', 'foot'];
+    const sections = ['np', 'songs', 'artists', 'albums', 'plists', 'studio3d', 'foot'];
     let active = 'np';
     for (const id of sections) {
       const el = document.getElementById(id);
@@ -2898,9 +2978,13 @@ window.AudioEngine = AudioEngine;
     studio.style.setProperty('--artist-glow-2', hexToRgba(t.color, 0.04));
     // Mark active row
     document.querySelectorAll('.song-row').forEach(r => {
-      const isActive = parseInt(r.dataset.idx) === currentIdx;
+      const isActive = queueName === 'library' && parseInt(r.dataset.idx) === currentIdx;
       r.classList.toggle('is-playing', isActive);
       if (isActive) r.style.setProperty('--row-color', t.color);
+    });
+    document.querySelectorAll('.pl-row').forEach(r => {
+      r.classList.toggle('is-playing',
+        queueName === r.dataset.pl && parseInt(r.dataset.idx) === currentIdx);
     });
   }
 
@@ -2920,12 +3004,19 @@ window.AudioEngine = AudioEngine;
     disc.classList.toggle('is-playing', playing);
   }
 
+  let queue = tracks;
+  let queueName = 'library';
   function playIndex(i) {
-    currentIdx = (i + tracks.length) % tracks.length;
-    const t = tracks[currentIdx];
+    currentIdx = (i + queue.length) % queue.length;
+    const t = queue[currentIdx];
     setTrackUI(t);
     engine.play(t);
     setPlayIcon(true);
+  }
+  function playLibrary(i) {
+    queue = tracks;
+    queueName = 'library';
+    playIndex(i);
   }
 
   // ===== BUILD SONGS LIST =====
@@ -2950,7 +3041,7 @@ window.AudioEngine = AudioEngine;
       <div class="plays">${t.plays}</div>
       <div class="duration">${formatTime(t.duration)}</div>
     `;
-    row.addEventListener('click', () => playIndex(i));
+    row.addEventListener('click', () => playLibrary(i));
     songsEl.appendChild(row);
   });
 
@@ -3004,7 +3095,7 @@ window.AudioEngine = AudioEngine;
     tile.querySelector('.artist-tile-play').addEventListener('click', (e) => {
       e.stopPropagation();
       const firstIdx = tracks.findIndex(t => t.artistId === artist.id);
-      if (firstIdx >= 0) playIndex(firstIdx);
+      if (firstIdx >= 0) playLibrary(firstIdx);
     });
     railEl.appendChild(tile);
   });
@@ -3059,10 +3150,116 @@ window.AudioEngine = AudioEngine;
     // Click → play first song from that album
     card.addEventListener('click', () => {
       const i = tracks.findIndex(t => t.albumId === album.id);
-      if (i >= 0) playIndex(i);
+      if (i >= 0) playLibrary(i);
     });
     albumsEl.appendChild(card);
   });
+
+  // ===== BUILD PLAYLISTS (synced from Apple Music — metadata only) =====
+  // Each track gets a deterministic synth recipe from its name; the vibe
+  // params keep house/classy/country previews in genre-appropriate ranges.
+  const PL_VIBES = {
+    house: {
+      tempo: h => 122 + (h % 7), pads: ['sawtooth', 'square', 'triangle'], basses: ['sawtooth', 'triangle'],
+      progs: [
+        [[0,3,7,10],[-2,5,8,12],[-4,3,7,10],[-5,2,7,10]],
+        [[0,3,7,12],[-4,3,7,10],[-2,5,8,12],[0,3,7,10]],
+      ],
+    },
+    classy: {
+      tempo: h => 74 + (h % 22), pads: ['sine', 'triangle'], basses: ['sine'],
+      progs: [
+        [[0,4,7,11],[-3,4,7,11],[-5,2,7,11],[-1,2,7,12]],
+        [[0,4,7,11],[-2,5,9,12],[-5,2,7,11],[-3,4,9,12]],
+      ],
+    },
+    country: {
+      tempo: h => 96 + (h % 24), pads: ['triangle', 'sine'], basses: ['triangle'],
+      progs: [
+        [[0,4,7,12],[-5,2,7,12],[-3,4,9,12],[0,4,7,14]],
+        [[0,4,7,12],[-2,5,9,12],[-5,2,7,12],[0,4,9,14]],
+      ],
+    },
+  };
+  const PL_KEYS = [146.83, 164.81, 174.61, 196.00, 220.00, 246.94, 261.63];
+  function plHash(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return h;
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  const PLAYLISTS = {};
+  Object.entries(window.PLAYLISTS_DATA || {}).forEach(([key, pl]) => {
+    const vibe = PL_VIBES[pl.vibe] || PL_VIBES.classy;
+    PLAYLISTS[key] = {
+      ...pl,
+      queue: pl.tracks.map(([title, artist, album, dur, year]) => {
+        const h = plHash(title + artist);
+        return {
+          id: key + '-' + h, title, artist, album, year: year || '—',
+          duration: dur, plays: '', art: 'abcdefg'[h % 7], color: pl.color,
+          key: PL_KEYS[h % PL_KEYS.length], tempo: vibe.tempo(h),
+          pad: vibe.pads[h % vibe.pads.length], bass: vibe.basses[h % vibe.basses.length],
+          chords: vibe.progs[h % vibe.progs.length],
+        };
+      }),
+    };
+  });
+
+  const plTabsEl = document.querySelector('#pl-tabs');
+  const plListEl = document.querySelector('#pl-list');
+  let plActive = 'house';
+
+  function renderPlList() {
+    const pl = PLAYLISTS[plActive];
+    if (!pl) return;
+    plListEl.innerHTML = '';
+    plListEl.style.setProperty('--pl-color', pl.color);
+    pl.queue.forEach((t, i) => {
+      const row = document.createElement('div');
+      row.className = 'pl-row';
+      row.dataset.pl = plActive;
+      row.dataset.idx = i;
+      row.innerHTML = `
+        <span class="n">${String(i + 1).padStart(3, '0')}</span>
+        <div class="ti"><b>${esc(t.title)}</b><span>${esc(t.artist)}</span></div>
+        <span class="al">${esc(t.album)}</span>
+        <span class="du">${formatTime(t.duration)}</span>
+      `;
+      row.addEventListener('click', () => {
+        queue = pl.queue;
+        queueName = plActive;
+        playIndex(i);
+      });
+      plListEl.appendChild(row);
+    });
+    if (queueName === plActive) setTrackUI(queue[currentIdx]);
+  }
+
+  Object.entries(PLAYLISTS).forEach(([key, pl]) => {
+    const totalMins = Math.round(pl.queue.reduce((s, t) => s + t.duration, 0) / 60);
+    const hrs = Math.floor(totalMins / 60), mins = totalMins % 60;
+    const tab = document.createElement('button');
+    tab.className = 'pl-tab' + (key === plActive ? ' is-active' : '');
+    tab.style.setProperty('--pl-color', pl.color);
+    tab.style.setProperty('--pl-glow', hexToRgba(pl.color, 0.16));
+    tab.innerHTML = `
+      <span class="em">${pl.emoji}</span>
+      <span class="nm">${pl.name === pl.emoji ? esc(pl.label) : esc(pl.name)} <small>${pl.name === pl.emoji ? 'my playlist name: ' + pl.emoji : esc(pl.label)}</small></span>
+      <span class="ds">${esc(pl.desc)}</span>
+      <span class="ct">${pl.queue.length} tracks · ${hrs}h ${mins}m</span>
+    `;
+    tab.addEventListener('click', () => {
+      plActive = key;
+      document.querySelectorAll('.pl-tab').forEach(b => b.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      renderPlList();
+    });
+    plTabsEl.appendChild(tab);
+  });
+  renderPlList();
 
   // ===== INITIAL STATE =====
   setTrackUI(tracks[0]);
@@ -3095,7 +3292,7 @@ window.AudioEngine = AudioEngine;
 
   engine.onTrackEnd = () => {
     if (engine.repeat) playIndex(currentIdx);
-    else if (engine.shuffle) playIndex(Math.floor(Math.random() * tracks.length));
+    else if (engine.shuffle) playIndex(Math.floor(Math.random() * queue.length));
     else playIndex(currentIdx + 1);
   };
 

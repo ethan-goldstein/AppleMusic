@@ -25,6 +25,10 @@ trademark notice.
 - `assets/hero-reveal.webm` intro video (shared by both intro layers)
 - "The Room" — 3D music studio mesh generated with **Higgsfield AI**
   (`generate_image` → `image_to_3d`), rendered with `<model-viewer>`
+- "My rotations" — three real playlists (🕶️ house / classy / country, 482
+  tracks) synced as metadata from my Apple Music library via AppleScript
+  (`assets/playlists.js`); previews are deterministic synth recipes per
+  track, never the original recordings
 - Custom cursor, scroll reveals, screen labels, easter egg back room
 
 ## Run locally
