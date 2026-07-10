@@ -1,0 +1,39 @@
+MIT License
+
+Copyright (c) 2026 Ethan Goldstein
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---------------------------------------------------------------------------
+TRADEMARK & CONTENT NOTICE (not part of the MIT license above)
+
+This repository is an unofficial, non-commercial fan concept and front-end
+design study. It is NOT affiliated with, endorsed by, or sponsored by
+Apple Inc. "Apple Music", "Apple", and related marks are trademarks of
+Apple Inc., referenced nominatively for identification only.
+
+Artist, song, and album names appear nominatively as factual metadata.
+All audio on the site is procedurally synthesized in the browser — no real
+recordings, masters, or copyrighted audio are included or distributed.
+
+The 3D "studio room" mesh was generated with Higgsfield AI from an
+AI-generated source image. The MIT license applies to the ORIGINAL CODE in
+this repository only — it grants no rights to any third-party trademarks.
+
+Nothing on this site is offered for sale and no payments are processed.
